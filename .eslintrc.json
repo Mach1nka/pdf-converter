@@ -29,6 +29,9 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "no-case-declarations": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "react/display-name": "off"
     }
 }
