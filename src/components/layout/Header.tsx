@@ -1,18 +1,9 @@
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import {
-  AppBar,
-  Typography,
-  useTheme,
-  Button,
-  Toolbar,
-  useMediaQuery,
-  Link,
-  Theme,
-} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { AppBar, Typography, useTheme, Toolbar, useMediaQuery, Link, Theme } from '@mui/material';
 
-import { authRoutes } from '../../router/auth-config';
 import { StylesOverride } from '../../types/types';
 import MobileNav from './MobileNav';
+import DesktopNav from './DesktopNav';
 import Loader from './loader';
 
 const useStyles = (theme: Theme): StylesOverride => ({
@@ -41,7 +32,6 @@ const useStyles = (theme: Theme): StylesOverride => ({
 const Header: React.FC = () => {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const navigate = useNavigate();
   const smScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -52,15 +42,7 @@ const Header: React.FC = () => {
             PDFConvertor
           </Link>
         </Typography>
-        {smScreen ? (
-          <MobileNav />
-        ) : (
-          authRoutes.map((el) => (
-            <Button key={el.id} onClick={() => navigate(el.path)} size="large" color="secondary">
-              {el.title}
-            </Button>
-          ))
-        )}
+        {smScreen ? <MobileNav /> : <DesktopNav />}
       </Toolbar>
       <Loader />
     </AppBar>
