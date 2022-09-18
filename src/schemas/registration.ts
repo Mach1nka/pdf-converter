@@ -1,13 +1,15 @@
 import * as yup from 'yup';
 
-export type LoginCredentials = {
+export type RegisterCredentials = {
   login: string;
   password: string;
+  passwordCopy: string;
 };
 
-const initialValues: LoginCredentials = {
+const initialValues: RegisterCredentials = {
   login: '',
   password: '',
+  passwordCopy: '',
 };
 
 const validationSchema = yup.object({
@@ -25,6 +27,10 @@ const validationSchema = yup.object({
     .required('Password is required')
     .min(6, 'Login must be more than 6 symbols')
     .matches(/^[a-zA-Z0-9]/, 'Password must have only numbers and letters'),
+  passwordCopy: yup
+    .string()
+    .required('Password is required')
+    .oneOf([yup.ref('password')], 'Passwords does not match'),
 });
 
 export { initialValues, validationSchema };

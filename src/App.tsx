@@ -4,7 +4,9 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import defaultTheme from './styles/default-theme';
 import ErrorBoundary from './components/error-boundary';
 import Layout from './components/layout';
-import NotFound from './components/not-found';
+import NotFound from './pages/not-found';
+import Login from './pages/login';
+import Registration from './pages/registration';
 
 const App: React.FC = () => {
   return (
@@ -14,8 +16,10 @@ const App: React.FC = () => {
         <Router>
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/404" element={<NotFound />}></Route>
-              <Route path="*" element={<NotFound />}></Route>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </Router>
