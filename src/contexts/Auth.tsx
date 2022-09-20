@@ -24,8 +24,8 @@ interface AuthContextValue extends AuthData {
 }
 
 const initialState: AuthData = {
-  isAuth: true,
-  username: 'userddddddddd',
+  isAuth: false,
+  username: null,
 };
 
 function reducer(state: AuthData, action: Action): AuthData {

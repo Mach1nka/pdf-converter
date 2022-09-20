@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Registration from './pages/registration';
 import AuthProvider from './contexts/Auth';
 import AuthProtection from './router/AuthProtection';
+import DnDFile from './components/file-dnd/DnDFile';
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <Routes>
               <Route element={<Layout />}>
                 <Route element={<AuthProtection />}></Route>
+                <Route path="/home" element={<DnDFile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
                 <Route path="/404" element={<NotFound />} />

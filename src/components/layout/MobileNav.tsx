@@ -26,7 +26,7 @@ const MobileNav: React.FC = () => {
     <>
       {!isAuth ? (
         <>
-          <IconButton size="large" onClick={handleMenu} color="primary">
+          <IconButton size="large" onClick={handleMenu} color="secondary">
             <LoginIcon />
           </IconButton>
           <Menu
