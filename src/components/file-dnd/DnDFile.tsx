@@ -1,109 +1,103 @@
-import { useCallback, useRef, useState, useEffect } from 'react';
+import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import { Button, Input, InputLabel, Typography, Box, Theme, useTheme } from '@mui/material';
+import { Input, InputLabel, Box, useTheme } from '@mui/material';
 
-import { Nullable, StylesOverride } from '../../types/types';
+import FileManagement from './FileManagement';
 import { initialValues } from '../../schemas/file';
 import { acceptableFileExtensions } from './constant';
-
-const useStyles = (theme: Theme): StylesOverride => ({
-  Wrapper: {
-    width: '100%',
-    padding: '0 1rem',
-  },
-  FormControl: {
-    position: 'relative',
-    height: '12rem',
-    width: '100%',
-  },
-  Input: {
-    display: 'none',
-  },
-  Label: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: '2px',
-    borderRadius: '1rem',
-    borderStyle: 'dashed',
-    borderColor: '',
-    backgroundColor: '#f8fafc',
-  },
-  ActiveZone: {
-    borderColor: theme.palette.info.main,
-  },
-  Typography: {
-    fontWeight: 600,
-  },
-  DropZone: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    borderRadius: '1rem',
-    inset: 0,
-  },
-});
+import { useStyles } from '../../hooks';
 
 const DnDFile: React.FC = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: (values, { resetForm }) => {
+      console.log(values);
       resetForm();
     },
   });
   const theme = useTheme();
-  const styles = useStyles(theme);
+  const styles = useStyles(
+    {
+      Wrapper: {
+        width: '100%',
+        padding: '0 1rem',
+      },
+      FormControl: {
+        position: 'relative',
+        height: '12rem',
+        width: '100%',
+      },
+      Input: {
+        display: 'none',
+      },
+      Label: {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: '2px',
+        borderRadius: '1rem',
+        borderStyle: 'dashed',
+        borderColor: '',
+        backgroundColor: '#f8fafc',
+      },
+      ActiveZone: {
+        borderColor: theme.palette.info.main,
+      },
+      DropZone: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        borderRadius: '1rem',
+        inset: 0,
+      },
+    },
+    [theme],
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragActive, setDragState] = useState(false);
-  console.log(formik.values);
 
-  const onInputChange = (e: any) => {
+  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       formik.setFieldValue('file', e.target.files[0]);
     }
   };
 
-  const onDragEnter = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setDragState(true);
-    },
-    [setDragState],
-  );
-
-  const onDragLeave = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setDragState(false);
-    },
-    [setDragState],
-  );
-
-  const onDragOver = useCallback((e: any) => {
+  const onDragEnter = (e: DragEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
+    setDragState(true);
+  };
+
+  const onDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragState(false);
+  };
+
+  const onDragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const onDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer?.files && e.dataTransfer?.files[0]) {
+      formik.setFieldValue('file', e.dataTransfer.files[0]);
+    }
+    setDragState(false);
+  };
+
+  const onUploadClick = useCallback(() => {
+    inputRef.current?.click();
   }, []);
 
-  const onDrop = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        formik.setFieldValue('file', e.dataTransfer.files[0]);
-      }
-      setDragState(false);
-    },
-    [formik, setDragState],
-  );
-
-  const onUploadClick = () => {
-    inputRef.current?.click();
-  };
+  const submitForm = useCallback(() => {
+    formik.submitForm();
+  }, []);
 
   return (
     <Box sx={styles.Wrapper}>
@@ -130,25 +124,11 @@ const DnDFile: React.FC = () => {
             id="label-file"
             htmlFor="input-file-upload"
           >
-            <Typography sx={styles.Typography} gutterBottom>
-              {formik.values.file
-                ? `Chosen file: ${formik.values.file.name}`
-                : 'Drag and drop your file here or'}
-            </Typography>
-            {formik.values.file ? (
-              <>
-                <Button onClick={() => formik.submitForm()} color="success" variant="outlined">
-                  send
-                </Button>
-                <Button onClick={onUploadClick} color="info" variant="outlined">
-                  choose another one
-                </Button>
-              </>
-            ) : (
-              <Button onClick={onUploadClick} variant="outlined">
-                upload a document
-              </Button>
-            )}
+            <FileManagement
+              onUploadClick={onUploadClick}
+              file={formik.values.file}
+              submitForm={submitForm}
+            />
           </InputLabel>
           {isDragActive ? (
             <Box
