@@ -8,16 +8,16 @@ export enum AuthActions {
   LOG_OUT = 'LOG_OUT',
 }
 
-type AuthLogInAction = {
+type LogInAction = {
   type: AuthActions.LOG_IN;
   payload: AuthData;
 };
 
-type AuthLogOutAction = {
+type LogOutAction = {
   type: AuthActions.LOG_OUT;
 };
 
-type Action = AuthLogInAction | AuthLogOutAction;
+type Action = LogInAction | LogOutAction;
 
 interface AuthContextValue extends AuthData {
   dispatch: Dispatch<Action>;

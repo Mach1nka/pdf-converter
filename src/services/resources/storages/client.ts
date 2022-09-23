@@ -3,8 +3,8 @@ import BrowserStorage from './storage';
 import { AuthKeys } from './types';
 
 const manageAuth = (storage: BrowserStorage) => ({
-  get: (key: AuthKeys): void => storage.get(key),
-  save: (key: AuthKeys, value: any): void => storage.set(key, value),
+  get: (key: AuthKeys): string => storage.get(key),
+  save: (key: AuthKeys, value: string): void => storage.set(key, value),
   delete: (key: AuthKeys): void => storage.delete(key),
 });
 
