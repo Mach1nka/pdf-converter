@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import defaultTheme from './styles/default-theme';
@@ -24,6 +24,7 @@ const App: React.FC = () => {
               <Router>
                 <Routes>
                   <Route element={<Layout />}>
+                    <Route path="/" element={<Navigate to="/home" />} />
                     <Route element={<AuthProtection />}></Route>
                     <Route path="/home" element={<DnDFile />} />
                     <Route path="/login" element={<Login />} />

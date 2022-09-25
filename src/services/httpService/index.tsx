@@ -8,8 +8,8 @@ const catchHandler = (err: AxiosError<ErrorResponse>) => {
   const errorJSON = err.toJSON() as any;
 
   const errorInfo: ErrorInfo = {
-    message: err.response?.data.errors.message || errorJSON.message,
-    status: Number(err.response?.data.errors.status || errorJSON.status || 500),
+    message: err.response?.data?.errors.message || errorJSON.message,
+    status: Number(err.response?.data?.errors.status || errorJSON.status || 500),
   };
   console.log('Error: ', errorInfo);
 
@@ -21,6 +21,14 @@ class HttpService {
 
   constructor(apiBase: ApiBase) {
     this.apiBase = apiBase;
+  }
+
+  public setToken(token: string) {
+    this.apiBase.setToken(token);
+  }
+
+  public resetToken() {
+    this.apiBase.resetToken();
   }
 
   get<T>(endpoint: string, params: Params = {}): Promise<BaseResponse<T>> {

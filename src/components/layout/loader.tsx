@@ -6,7 +6,9 @@ import { LoaderContext } from '../../contexts/Loader';
 const Loader: React.FC = () => {
   const { loading } = useContext(LoaderContext);
 
-  return loading ? <LinearProgress sx={{ position: 'absolute', bottom: 0 }} /> : null;
+  return loading ? (
+    <LinearProgress sx={{ position: 'absolute', bottom: 0, width: '100%' }} />
+  ) : null;
 };
 
 export default Loader;

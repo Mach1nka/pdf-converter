@@ -1,17 +1,16 @@
 import * as yup from 'yup';
 
-export type LoginCredentials = {
-  login: string;
-  password: string;
-};
+import { AuthCredentials } from '../services/resources/models/auth.model';
+
+export type LoginCredentials = AuthCredentials;
 
 const initialValues: LoginCredentials = {
-  login: '',
+  username: '',
   password: '',
 };
 
 const validationSchema = yup.object({
-  login: yup
+  username: yup
     .string()
     .strict()
     .trim('Login cannot include leading and trailing spaces')

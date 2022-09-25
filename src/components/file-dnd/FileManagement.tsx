@@ -47,7 +47,7 @@ const FileManagement: React.FC<Props> = ({ file, onUploadClick, submitForm }) =>
 };
 
 FileManagement.propTypes = {
-  file: PropTypes.instanceOf(File).isRequired,
+  file: PropTypes.instanceOf(File),
   onUploadClick: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
 };

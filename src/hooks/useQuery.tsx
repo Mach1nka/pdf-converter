@@ -19,7 +19,6 @@ const useQuery = <T,>(request: () => Promise<BaseResponse<T>>): Nullable<BaseRes
         const response = await request();
         setResponse(response);
       } catch (e) {
-        // TODO: set error to Alert Context
         const error = e as ErrorInfo;
         dispatch({
           type: AlertActions.ADD,

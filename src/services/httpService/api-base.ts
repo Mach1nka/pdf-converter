@@ -25,7 +25,7 @@ class ApiBase {
     this.accessToken = token;
   }
 
-  private resetToken() {
+  public resetToken() {
     this.accessToken = null;
   }
 
@@ -61,10 +61,8 @@ class ApiBase {
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError<ErrorResponse>) => {
-        if (Number(error.response?.data.errors.status || 500) === HttpStatus.InvalidCredentials) {
+        if (Number(error.response?.data?.errors.status || 500) === HttpStatus.InvalidCredentials) {
           this.resetToken();
-          // error.request.
-          // localStorageService.removeToken();
         }
         throw error;
       },

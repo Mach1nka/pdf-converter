@@ -1,20 +1,39 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Button, TextField, Typography } from '@mui/material';
 
 import { initialValues, LoginCredentials, validationSchema } from '../../schemas/login';
+import { useNavigate } from 'react-router-dom';
+import { useApi } from '../../hooks';
+import {
+  AuthActions,
+  AuthCredentials,
+  AuthResponse,
+} from '../../services/resources/models/auth.model';
+import { login } from '../../services/resources/requests/auth';
+import { AuthContext } from '../../contexts/Auth';
 
 const LoginForm: React.FC = () => {
-  const onSubmit = useCallback((values: LoginCredentials) => {
-    console.log(values);
-  }, []);
+  const { dispatch } = useContext(AuthContext);
+  const callback = useApi<AuthResponse, AuthCredentials>(login);
+  const navigate = useNavigate();
 
-  const { loginId, passId }: { [k: string]: keyof LoginCredentials } = useMemo(() => {
+  const { usernameId, passId }: { [k: string]: keyof LoginCredentials } = useMemo(() => {
     return {
-      loginId: 'login',
+      usernameId: 'username',
       passId: 'password',
     };
   }, []);
+
+  const onSubmit = (values: LoginCredentials) => {
+    callback(values).then(({ data }) => {
+      dispatch({
+        type: AuthActions.LOG_IN,
+        payload: { username: data.username },
+      });
+      navigate('/home');
+    });
+  };
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
@@ -27,9 +46,9 @@ const LoginForm: React.FC = () => {
         <TextField
           color="info"
           onChange={formik.handleChange}
-          error={formik.touched[loginId] && !!formik.errors[loginId]}
-          helperText={formik.touched[loginId] && formik.errors[loginId]}
-          id={loginId}
+          error={formik.touched[usernameId] && !!formik.errors[usernameId]}
+          helperText={formik.touched[usernameId] && formik.errors[usernameId]}
+          id={usernameId}
           label="Username"
           placeholder="Username"
           variant="filled"

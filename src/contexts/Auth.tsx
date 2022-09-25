@@ -1,16 +1,11 @@
 import { useReducer, Context, createContext, Dispatch, PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
-import { AuthData } from '../services/resources/models/auth.model';
-
-export enum AuthActions {
-  LOG_IN = 'LOG_IN',
-  LOG_OUT = 'LOG_OUT',
-}
+import { AuthActions, AuthData } from '../services/resources/models/auth.model';
 
 type LogInAction = {
   type: AuthActions.LOG_IN;
-  payload: AuthData;
+  payload: Pick<AuthData, 'username'>;
 };
 
 type LogOutAction = {
@@ -31,7 +26,7 @@ const initialState: AuthData = {
 function reducer(state: AuthData, action: Action): AuthData {
   switch (action.type) {
     case AuthActions.LOG_IN:
-      return { ...state, ...action.payload };
+      return { ...state, isAuth: true, username: action.payload.username };
     case AuthActions.LOG_OUT:
       return { ...state, ...initialState };
     default:
