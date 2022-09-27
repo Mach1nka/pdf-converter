@@ -22,7 +22,7 @@ class ApiBase {
   private accessToken: Nullable<string> = null;
 
   public setToken(token: string) {
-    this.accessToken = token;
+    this.accessToken = `Bearer ${token}`;
   }
 
   public resetToken() {

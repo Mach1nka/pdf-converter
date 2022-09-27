@@ -20,3 +20,13 @@ export interface AuthCredentials {
   username: string;
   password: string;
 }
+
+export interface LogoutPayload {
+  username: string;
+  refreshToken: string;
+}
+
+export interface RefreshTokenPayload {
+  username: string;
+  refreshToken: string;
+}

@@ -25,14 +25,13 @@ const LoginForm: React.FC = () => {
     };
   }, []);
 
-  const onSubmit = (values: LoginCredentials) => {
-    callback(values).then(({ data }) => {
-      dispatch({
-        type: AuthActions.LOG_IN,
-        payload: { username: data.username },
-      });
-      navigate('/home');
+  const onSubmit = async (values: LoginCredentials) => {
+    const { data } = await callback(values);
+    dispatch({
+      type: AuthActions.LOG_IN,
+      payload: { username: data.username },
     });
+    navigate('/home');
   };
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });

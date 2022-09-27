@@ -8,11 +8,17 @@ import Logout from '@mui/icons-material/Logout';
 import { Nullable } from '../../types/types';
 import { authRoutes } from '../../router/auth-config';
 import { AuthContext } from '../../contexts/Auth';
+import { authManagement } from '../../services/resources/storages/client';
+import { AuthKeys } from '../../services/resources/storages/types';
+import { useApi } from '../../hooks';
+import { logout } from '../../services/resources/requests/auth';
+import { AuthActions } from '../../services/resources/models/auth.model';
 
 const DesktopNav: React.FC = () => {
-  const { username, isAuth } = useContext(AuthContext);
+  const { username, isAuth, dispatch } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState<Nullable<HTMLElement>>(null);
   const navigate = useNavigate();
+  const callback = useApi(logout);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -20,6 +26,13 @@ const DesktopNav: React.FC = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    const refreshToken = String(authManagement.get(AuthKeys.REFRESH_TOKEN));
+    handleClose();
+    await callback({ refreshToken, username: String(username) });
+    dispatch({ type: AuthActions.LOG_OUT });
   };
 
   return (
@@ -49,7 +62,7 @@ const DesktopNav: React.FC = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

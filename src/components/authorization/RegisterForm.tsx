@@ -25,18 +25,17 @@ const RegisterForm: React.FC = () => {
       };
     }, []);
 
-  const onSubmit = ({ username, password }: RegisterCredentials) => {
-    callback({ username, password }).then(({ data }) => {
-      dispatch({
-        type: AlertActions.ADD,
-        payload: {
-          id: uuid(),
-          severity: AlertSeverity.Success,
-          message: data,
-        },
-      });
-      navigate('/login');
+  const onSubmit = async ({ username, password }: RegisterCredentials) => {
+    const { data } = await callback({ username, password });
+    dispatch({
+      type: AlertActions.ADD,
+      payload: {
+        id: uuid(),
+        severity: AlertSeverity.Success,
+        message: data,
+      },
     });
+    navigate('/login');
   };
 
   const formik = useFormik({ initialValues, validationSchema, onSubmit });
