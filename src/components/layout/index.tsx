@@ -25,7 +25,7 @@ const Layout: React.FC = () => {
 
         dispatch({
           type: AuthActions.LOG_IN,
-          payload: { username: username },
+          payload: { username: data.username },
         });
       }
     };

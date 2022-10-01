@@ -12,13 +12,13 @@ import { useApi } from '../../hooks';
 import { logout } from '../../services/resources/requests/auth';
 import { authManagement } from '../../services/resources/storages/client';
 import { AuthKeys } from '../../services/resources/storages/types';
-import { AuthActions } from '../../services/resources/models/auth.model';
+import { AuthActions, LogoutPayload } from '../../services/resources/models/auth.model';
 
 const MobileNav: React.FC = () => {
   const { isAuth, username, dispatch } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState<Nullable<HTMLElement>>(null);
   const navigate = useNavigate();
-  const callback = useApi(logout);
+  const callback = useApi<string, LogoutPayload>(logout);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,8 +31,8 @@ const MobileNav: React.FC = () => {
   const handleLogout = async () => {
     const refreshToken = String(authManagement.get(AuthKeys.REFRESH_TOKEN));
     handleClose();
-    await callback({ refreshToken, username: String(username) });
     dispatch({ type: AuthActions.LOG_OUT });
+    await callback({ refreshToken, username: String(username) });
   };
 
   return (

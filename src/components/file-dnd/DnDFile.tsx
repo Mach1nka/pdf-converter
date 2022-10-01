@@ -1,20 +1,14 @@
 import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
-import { useFormik } from 'formik';
+import { FormikHelpers, useFormik } from 'formik';
 import { Input, InputLabel, Box, useTheme } from '@mui/material';
 
 import FileManagement from './FileManagement';
-import { initialValues } from '../../schemas/file';
+import { FileForm, initialValues } from '../../schemas/file';
 import { acceptableFileExtensions } from './constant';
-import { useStyles } from '../../hooks';
+import { useApi, useStyles } from '../../hooks';
+import { uploadDocument } from '../../services/resources/requests/document';
 
 const DnDFile: React.FC = () => {
-  const formik = useFormik({
-    initialValues,
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      resetForm();
-    },
-  });
   const theme = useTheme();
   const styles = useStyles(
     {
@@ -56,6 +50,25 @@ const DnDFile: React.FC = () => {
     },
     [theme],
   );
+
+  const callback = useApi<string, FormData>(uploadDocument);
+
+  const onSubmit = async ({ file }: FileForm, { resetForm }: FormikHelpers<FileForm>) => {
+    const formData = new FormData();
+    const convertibleFile = file as File;
+
+    formData.append('file', convertibleFile);
+    formData.append(
+      'convertedFileName',
+      convertibleFile.name.slice(0, convertibleFile.name.lastIndexOf('.')),
+    );
+    formData.append('description', '');
+    callback(formData);
+    resetForm();
+  };
+
+  const formik = useFormik({ initialValues, onSubmit });
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragActive, setDragState] = useState(false);
 

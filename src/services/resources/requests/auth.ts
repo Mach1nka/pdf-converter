@@ -30,11 +30,10 @@ const refreshToken = (credentials: RefreshTokenPayload) =>
     });
 
 const logout = (credentials: LogoutPayload) =>
-  httpService.post<string, LogoutPayload>('/auth/logout', {}, credentials).then((resp) => {
+  httpService.post<string, LogoutPayload>('/auth/logout', {}, credentials).finally(() => {
     httpService.resetToken();
     authManagement.delete(AuthKeys.REFRESH_TOKEN);
     authManagement.delete(AuthKeys.USERNAME);
-    return resp;
   });
 
 export { register, login, refreshToken, logout };

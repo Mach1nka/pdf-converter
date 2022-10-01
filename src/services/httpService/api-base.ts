@@ -61,7 +61,8 @@ class ApiBase {
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error: AxiosError<ErrorResponse>) => {
-        if (Number(error.response?.data?.errors.status || 500) === HttpStatus.InvalidCredentials) {
+        const status = error.response?.data?.errors?.status || error?.response?.status || 500;
+        if (Number(status) === HttpStatus.InvalidCredentials) {
           this.resetToken();
         }
         throw error;

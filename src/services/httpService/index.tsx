@@ -5,11 +5,9 @@ import { BaseResponse, ErrorInfo, ErrorResponse, Params } from './types';
 import { SERVER_URL } from '../../config';
 
 const catchHandler = (err: AxiosError<ErrorResponse>) => {
-  const errorJSON = err.toJSON() as any;
-
   const errorInfo: ErrorInfo = {
-    message: err.response?.data?.errors.message || errorJSON.message,
-    status: Number(err.response?.data?.errors.status || errorJSON.status || 500),
+    message: err.response?.data?.errors?.message || err.message,
+    status: Number(err.response?.data?.errors?.status || err?.response?.status || 500),
   };
   console.log('Error: ', errorInfo);
 
