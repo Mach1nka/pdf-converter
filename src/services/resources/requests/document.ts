@@ -15,4 +15,8 @@ const uploadDocument = (file: FormData) => {
   });
 };
 
-export { getDocuments, downloadDocument, uploadDocument };
+const deleteDocument = (id: string) => {
+  return httpService.delete<string>(`/api/documents/upload/${id}`);
+};
+
+export { getDocuments, downloadDocument, uploadDocument, deleteDocument };

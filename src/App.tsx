@@ -7,11 +7,11 @@ import Layout from './components/layout';
 import NotFound from './pages/not-found';
 import Login from './pages/login';
 import Registration from './pages/registration';
+import Home from './pages/home';
 import AuthProvider from './contexts/Auth';
 import AlertProvider from './contexts/Alert';
 import LoaderProvider from './contexts/Loader';
 import AuthProtection from './router/AuthProtection';
-import DnDFile from './components/file-dnd/DnDFile';
 
 const App: React.FC = () => {
   return (
@@ -26,7 +26,7 @@ const App: React.FC = () => {
                   <Route element={<Layout />}>
                     <Route path="/" element={<Navigate to="/home" />} />
                     <Route element={<AuthProtection />}></Route>
-                    <Route path="/home" element={<DnDFile />} />
+                    <Route path="/home" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Registration />} />
                     <Route path="/404" element={<NotFound />} />

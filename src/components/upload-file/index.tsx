@@ -12,10 +12,6 @@ const DnDFile: React.FC = () => {
   const theme = useTheme();
   const styles = useStyles(
     {
-      Wrapper: {
-        width: '100%',
-        padding: '0 1rem',
-      },
       FormControl: {
         position: 'relative',
         height: '12rem',
@@ -113,47 +109,45 @@ const DnDFile: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={styles.Wrapper}>
-      <form onDragEnter={onDragEnter} style={{ width: '100%' }}>
-        <Box sx={styles.FormControl}>
-          <Input
-            inputProps={{
-              accept: acceptableFileExtensions.join(','),
-              multiple: true,
-            }}
-            onChange={onInputChange}
-            inputRef={inputRef}
-            sx={styles.Input}
-            type="file"
-            name="input-file-upload"
-            id="input-file-upload"
+    <form onDragEnter={onDragEnter} style={{ width: '100%' }}>
+      <Box sx={styles.FormControl}>
+        <Input
+          inputProps={{
+            accept: acceptableFileExtensions.join(','),
+            multiple: true,
+          }}
+          onChange={onInputChange}
+          inputRef={inputRef}
+          sx={styles.Input}
+          type="file"
+          name="input-file-upload"
+          id="input-file-upload"
+        />
+        <InputLabel
+          onClick={(e) => e.preventDefault()}
+          sx={{
+            ...styles.Label,
+            borderColor: isDragActive ? theme.palette.info.main : '#cbd5e1',
+          }}
+          id="label-file"
+          htmlFor="input-file-upload"
+        >
+          <FileManagement
+            onUploadClick={onUploadClick}
+            file={formik.values.file}
+            submitForm={submitForm}
           />
-          <InputLabel
-            onClick={(e) => e.preventDefault()}
-            sx={{
-              ...styles.Label,
-              borderColor: isDragActive ? theme.palette.info.main : '#cbd5e1',
-            }}
-            id="label-file"
-            htmlFor="input-file-upload"
-          >
-            <FileManagement
-              onUploadClick={onUploadClick}
-              file={formik.values.file}
-              submitForm={submitForm}
-            />
-          </InputLabel>
-          {isDragActive ? (
-            <Box
-              onDragLeave={onDragLeave}
-              onDragOver={onDragOver}
-              onDrop={onDrop}
-              sx={styles.DropZone}
-            />
-          ) : null}
-        </Box>
-      </form>
-    </Box>
+        </InputLabel>
+        {isDragActive ? (
+          <Box
+            onDragLeave={onDragLeave}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
+            sx={styles.DropZone}
+          />
+        ) : null}
+      </Box>
+    </form>
   );
 };
 

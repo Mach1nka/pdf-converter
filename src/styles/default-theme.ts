@@ -4,9 +4,7 @@ const defaultTheme: Theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body: {
-          overflow: 'hidden',
-        },
+        body: {},
       },
     },
   },
