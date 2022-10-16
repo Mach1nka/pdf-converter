@@ -3,7 +3,7 @@ import { AppBar, Typography, useTheme, Toolbar, useMediaQuery, Link } from '@mui
 
 import MobileNav from './MobileNav';
 import DesktopNav from './DesktopNav';
-import Loader from './gaag';
+import Loader from './Loader';
 import { useStyles } from '../../hooks';
 
 const Header: React.FC = () => {
