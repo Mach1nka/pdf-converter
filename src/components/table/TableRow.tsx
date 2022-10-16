@@ -21,6 +21,8 @@ const EnhancedTableRow: React.FC<Props> = ({ row, isRowSelected, handleClick }) 
     [theme],
   );
 
+  const date = new Date(row.timestamp);
+
   return (
     <Row
       hover
@@ -33,9 +35,9 @@ const EnhancedTableRow: React.FC<Props> = ({ row, isRowSelected, handleClick }) 
       <Cell component="th" scope="row">
         {row.convertedFileName}
       </Cell>
-      <Cell align="right">{row.description}</Cell>
+      {/* <Cell align="right">{row.description}</Cell> */}
       <Cell align="right">{row.fileType}</Cell>
-      <Cell align="right">{row.timestamp}</Cell>
+      <Cell align="right">{date.toLocaleString(undefined, { hour12: false })}</Cell>
     </Row>
   );
 };

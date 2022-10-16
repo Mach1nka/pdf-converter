@@ -21,11 +21,11 @@ const headCells: readonly HeadCell[] = [
     id: 'convertedFileName',
     label: 'Name',
   },
-  {
-    id: 'description',
-    label: 'Description',
-    align: 'right',
-  },
+  // {
+  //   id: 'description',
+  //   label: 'Description',
+  //   align: 'right',
+  // },
   {
     id: 'fileType',
     label: 'Original Type',
