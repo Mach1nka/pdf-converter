@@ -1,4 +1,11 @@
-import { AxiosRequestConfig, AxiosResponse, AxiosError, AxiosRequestHeaders } from 'axios';
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+  AxiosRequestHeaders,
+  CancelToken,
+  ResponseType,
+} from 'axios';
 
 import ApiBase from './api-base';
 import { BaseResponse, ErrorInfo, ErrorResponse, Params } from './types';
@@ -29,11 +36,18 @@ class HttpService {
     this.apiBase.resetToken();
   }
 
-  get<T>(endpoint: string, params: Params = {}): Promise<BaseResponse<T>> {
+  get<T>(
+    endpoint: string,
+    params: Params = {},
+    cancelToken?: CancelToken,
+    responseType?: ResponseType,
+  ): Promise<BaseResponse<T>> {
     const requestConfig: AxiosRequestConfig = {
       method: 'GET',
       url: endpoint,
       params,
+      cancelToken,
+      responseType,
     };
     return this.apiBase
       .instance(requestConfig)

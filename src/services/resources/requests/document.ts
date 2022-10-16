@@ -1,12 +1,14 @@
+import { CancelToken } from 'axios';
+
 import httpService from '../../httpService';
 import { ConvertedFile } from '../models/document.model';
 
-const getDocuments = () => {
-  return httpService.get<ConvertedFile[]>('/api/documents');
+const getDocuments = (cancelToken?: CancelToken) => {
+  return httpService.get<ConvertedFile[]>('/api/documents', {}, cancelToken);
 };
 
 const downloadDocument = (id: string) => {
-  return httpService.get<any>(`/api/documents/download/${id}`);
+  return httpService.get<any>(`/api/documents/download/${id}`, {}, undefined, 'blob');
 };
 
 const uploadDocument = (file: FormData) => {

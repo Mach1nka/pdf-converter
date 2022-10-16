@@ -9,18 +9,22 @@ import { downloadDocument } from '../../services/resources/requests/document';
 interface Props {
   selectedFile: Nullable<ConvertedFile>;
   handleDelete: () => Promise<void>;
+  handleRefresh: () => void;
 }
 
-const EnhancedTableToolbar: React.FC<Props> = ({ selectedFile, handleDelete }) => {
+const EnhancedTableToolbar: React.FC<Props> = ({ selectedFile, handleDelete, handleRefresh }) => {
   const downloadHandler = async () => {
-    // console.log(selectedFile);
-    // const resp: any = await downloadDocument(selectedFile?.id as string);
+    console.log(selectedFile);
+    const resp: any = await downloadDocument(selectedFile?.id as string);
 
-    // const link = document.createElement('a');
-    // link.href = URL.createObjectURL(new Blob([resp]));
-    // link.setAttribute('download', 'newFile.pdf');
-    // document.body.appendChild(link);
-    // link.click();
+    const url = URL.createObjectURL(new Blob([resp], { type: 'application/pdf' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.download = selectedFile?.convertedFileName as string;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -39,7 +43,7 @@ const EnhancedTableToolbar: React.FC<Props> = ({ selectedFile, handleDelete }) =
       </Typography>
       <>
         <Tooltip title="Refresh">
-          <IconButton onClick={downloadHandler} color="info">
+          <IconButton onClick={handleRefresh} color="info">
             <Refresh />
           </IconButton>
         </Tooltip>
@@ -61,6 +65,7 @@ const EnhancedTableToolbar: React.FC<Props> = ({ selectedFile, handleDelete }) =
 EnhancedTableToolbar.propTypes = {
   selectedFile: PropTypes.any,
   handleDelete: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired,
 };
 
 EnhancedTableToolbar.defaultProps = {
