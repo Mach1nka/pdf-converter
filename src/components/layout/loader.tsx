@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { LinearProgress } from '@mui/material';
 
-import { LoaderContext } from '../../contexts/Loader';
+import { LoaderContext } from '../../contexts/angudiagn';
 
 const Loader: React.FC = () => {
   const { loading } = useContext(LoaderContext);

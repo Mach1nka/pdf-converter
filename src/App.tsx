@@ -10,7 +10,7 @@ import Registration from './pages/registration';
 import Home from './pages/home';
 import AuthProvider from './contexts/Auth';
 import AlertProvider from './contexts/Alert';
-import LoaderProvider from './contexts/Loader';
+import LoaderProvider from './contexts/angudiagn';
 import AuthProtection from './router/AuthProtection';
 
 const App: React.FC = () => {

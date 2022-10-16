@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { AlertContext } from '../contexts/Alert';
-import { LoaderContext } from '../contexts/Loader';
+import { LoaderContext } from '../contexts/angudiagn';
 import { BaseResponse, ErrorInfo } from '../services/httpService/types';
 import { AlertActions, AlertSeverity } from '../services/resources/models/alert.model';
 import { Nullable } from '../types/types';
