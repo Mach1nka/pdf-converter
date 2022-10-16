@@ -1,5 +1,6 @@
-import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, DragEvent, useCallback, useContext, useRef, useState } from 'react';
 import { FormikHelpers, useFormik } from 'formik';
+import { v4 as uuid } from 'uuid';
 import { Input, InputLabel, Box, useTheme } from '@mui/material';
 
 import FileManagement from './FileManagement';
@@ -7,6 +8,9 @@ import { FileForm, initialValues } from '../../schemas/file';
 import { acceptableFileExtensions } from './constant';
 import { useApi, useStyles } from '../../hooks';
 import { uploadDocument } from '../../services/resources/requests/document';
+import { error } from 'console';
+import { AlertContext } from '../../contexts/Alert';
+import { AlertActions, AlertSeverity } from '../../services/resources/models/alert.model';
 
 const DnDFile: React.FC = () => {
   const theme = useTheme();
@@ -48,6 +52,7 @@ const DnDFile: React.FC = () => {
   );
 
   const callback = useApi<string, FormData>(uploadDocument);
+  const { dispatch } = useContext(AlertContext);
 
   const onSubmit = async ({ file }: FileForm, { resetForm }: FormikHelpers<FileForm>) => {
     const formData = new FormData();
@@ -95,7 +100,19 @@ const DnDFile: React.FC = () => {
     e.stopPropagation();
 
     if (e.dataTransfer?.files && e.dataTransfer?.files[0]) {
-      formik.setFieldValue('file', e.dataTransfer.files[0]);
+      if (acceptableFileExtensions.includes(e.dataTransfer?.files[0].type)) {
+        formik.setFieldValue('file', e.dataTransfer.files[0]);
+      }
+
+      dispatch({
+        type: AlertActions.ADD,
+        payload: {
+          id: uuid(),
+          severity: AlertSeverity.Warning,
+          message:
+            'Please choose file in one of the following extensions: .pdf, .xls .xslx, .doc .docx',
+        },
+      });
     }
     setDragState(false);
   };
