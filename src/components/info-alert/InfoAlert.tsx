@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { AlertTitle, Alert } from '@mui/material';
 
 import { AlertSeverity } from '../../services/resources/models/alert.model';
+import { useStyles } from '../../hooks';
 
 type Props = {
   id: string;
@@ -11,8 +12,17 @@ type Props = {
 };
 
 const InfoAlert: React.FC<Props> = ({ id, message, severity, onClose }) => {
+  const styles = useStyles(
+    {
+      Alert: {
+        backgroundColor: '#fff',
+      },
+    },
+    [],
+  );
+
   return (
-    <Alert onClose={() => onClose(id)} variant="outlined" severity={severity}>
+    <Alert sx={styles.Alert} onClose={() => onClose(id)} variant="outlined" severity={severity}>
       <AlertTitle sx={{ textTransform: 'capitalize' }}>{severity}</AlertTitle>
       {message}
     </Alert>

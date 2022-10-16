@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+
 import FileTable from '../../components/table/FileTable';
 import DnDFile from '../../components/upload-file';
 import { useStyles } from '../../hooks';

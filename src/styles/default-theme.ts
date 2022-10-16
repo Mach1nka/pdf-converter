@@ -7,6 +7,18 @@ const defaultTheme: Theme = createTheme({
         body: {},
       },
     },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            backgroundColor: '#CAEBF2',
+            '&:hover': {
+              backgroundColor: '#CAEBF2',
+            },
+          },
+        },
+      },
+    },
   },
   palette: {
     primary: {

@@ -7,7 +7,7 @@ import { BaseResponse, ErrorInfo } from '../services/httpService/types';
 import { AlertActions, AlertSeverity } from '../services/resources/models/alert.model';
 import { Nullable } from '../types/types';
 
-const useQuery = <T,>(request: () => Promise<BaseResponse<T>>): Nullable<BaseResponse<T>> => {
+const useQuery = <T,>(request: () => Promise<BaseResponse<T>>): BaseResponse<Nullable<T>> => {
   const { setLoading } = useContext(LoaderContext);
   const { dispatch } = useContext(AlertContext);
   const [response, setResponse] = useState<Nullable<BaseResponse<T>>>(null);
@@ -32,10 +32,14 @@ const useQuery = <T,>(request: () => Promise<BaseResponse<T>>): Nullable<BaseRes
         setLoading(false);
       }
     };
+
     fetchData();
   }, []);
 
-  return response;
+  return {
+    success: response?.success || false,
+    data: response?.data || null,
+  };
 };
 
 export default useQuery;

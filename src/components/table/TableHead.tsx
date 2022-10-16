@@ -21,7 +21,7 @@ const EnhancedTableHead: React.FC<Props> = ({ onRequestSort, order, orderBy }) =
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align="left"
+            align={headCell.align || 'left'}
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
           >

@@ -5,8 +5,8 @@ const getDocuments = () => {
   return httpService.get<ConvertedFile[]>('/api/documents');
 };
 
-const downloadDocument = () => {
-  return httpService.get<any>('/api/documents/download');
+const downloadDocument = (id: string) => {
+  return httpService.get<any>(`/api/documents/download/${id}`);
 };
 
 const uploadDocument = (file: FormData) => {
@@ -16,7 +16,7 @@ const uploadDocument = (file: FormData) => {
 };
 
 const deleteDocument = (id: string) => {
-  return httpService.delete<string>(`/api/documents/upload/${id}`);
+  return httpService.delete<string>(`/api/documents/${id}`);
 };
 
 export { getDocuments, downloadDocument, uploadDocument, deleteDocument };

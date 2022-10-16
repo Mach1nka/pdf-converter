@@ -1,5 +1,5 @@
 import { useContext, useCallback } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, useTheme } from '@mui/material';
 
 import { AlertContext } from '../../contexts/Alert';
 import { useStyles } from '../../hooks';
@@ -8,7 +8,7 @@ import { AlertActions, AlertData } from '../../services/resources/models/alert.m
 
 const AlertStack: React.FC = () => {
   const { alerts, dispatch } = useContext(AlertContext);
-
+  const theme = useTheme();
   const styles = useStyles(
     {
       Stack: {
@@ -16,9 +16,10 @@ const AlertStack: React.FC = () => {
         bottom: '40px',
         right: '20px',
         width: '300px',
+        zIndex: theme.zIndex.drawer + 1,
       },
     },
-    [],
+    [theme],
   );
 
   const onClose = useCallback((id: string) => {

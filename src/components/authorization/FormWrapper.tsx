@@ -1,10 +1,14 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { useStyles } from '../../hooks';
+import { AuthContext } from '../../contexts/Auth';
 
 const FormWrapper: React.FC<PropsWithChildren> = ({ children }) => {
+  const { isAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
   const styles = useStyles(
     {
       Wrapper: {
@@ -21,6 +25,12 @@ const FormWrapper: React.FC<PropsWithChildren> = ({ children }) => {
     },
     [],
   );
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/home');
+    }
+  }, [isAuth]);
 
   return (
     <Box sx={styles.Wrapper}>

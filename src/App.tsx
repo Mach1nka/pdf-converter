@@ -25,8 +25,9 @@ const App: React.FC = () => {
                 <Routes>
                   <Route element={<Layout />}>
                     <Route path="/" element={<Navigate to="/home" />} />
-                    <Route element={<AuthProtection />}></Route>
-                    <Route path="/home" element={<Home />} />
+                    <Route element={<AuthProtection />}>
+                      <Route path="/home" element={<Home />} />
+                    </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Registration />} />
                     <Route path="/404" element={<NotFound />} />

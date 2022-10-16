@@ -12,6 +12,7 @@ export type ColumnNames = Pick<
 
 interface HeadCell {
   id: keyof ColumnNames;
+  align?: 'right';
   label: string;
 }
 
@@ -23,14 +24,17 @@ const headCells: readonly HeadCell[] = [
   {
     id: 'description',
     label: 'Description',
+    align: 'right',
   },
   {
     id: 'fileType',
-    label: 'Type',
+    label: 'Original Type',
+    align: 'right',
   },
   {
     id: 'timestamp',
     label: 'Uploaded at',
+    align: 'right',
   },
 ];
 
