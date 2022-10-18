@@ -40,7 +40,7 @@ const Header: React.FC = () => {
       <Toolbar sx={styles.Toolbar}>
         <Typography align="left" variant="h1" sx={styles.Heading}>
           <Link component={RouterLink} sx={styles.Link} to="/">
-            PDFConvertor
+            Docstock
           </Link>
         </Typography>
         {smScreen ? <MobileNav /> : <DesktopNav />}
